@@ -24,6 +24,8 @@ This plugin is actively supported and we will do our best to help you. In return
 https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R8H3DD84PWAQ2
 1. Support us by buying our Premium plugins. In particular, check out our Events Calendar Pro http://tri.be/wordpress-events-calendar-pro/
 
+Note: gear vector art used in the WordPress.org banner were created by http://www.opengraphicdesign.com
+
 == Installation ==
 
 = Install =
