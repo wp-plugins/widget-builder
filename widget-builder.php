@@ -36,7 +36,7 @@ if ( ! function_exists('tribe_load_custom_widget_display') ) {
 		// filter 'tribe_widget_builder_get_posts' to override the cpt query
 		$available_custom_widgets = apply_filters( $token . '_get_posts', $available_custom_widgets );
 
-		if(count($available_custom_widgets) > 0 ) {
+		if( !empty($available_custom_widgets) ) {
 			foreach($available_custom_widgets as $widget) {
 				$widget_params = array( 
 					'ID' => $widget->ID, 
