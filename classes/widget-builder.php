@@ -35,6 +35,8 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 		public function __construct() {
 			$this->token = 'tribe_widget_builder';
 
+			$this->load_plugin_text_domain();
+
 			// setup the base path for includes in this plugin
 			$this->base_path = rtrim( plugin_dir_path(__FILE__), '/classes');
 
@@ -42,11 +44,38 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 
 			if ( is_admin() ) {
 
+				// setup meta boxes for custom fields
 				add_action( 'add_meta_boxes', array( &$this, 'meta_box_setup' ) );
 				add_action( 'save_post', array( &$this, 'meta_box_save') );
 
+				// change the post status messages when saving, publishing or updating
+				add_filter( 'post_updated_messages', array( &$this, 'widet_status_message'));
+
 			}
 		}
+
+		/**
+		 * widet_status_message function.
+		 * 
+		 * @access public
+		 * @return $messages
+		 */
+		function widet_status_message( $messages ) {
+			global $post;
+			if($post->post_type == $this->token) {
+				$messages["post"][1] = 'Widget content has been updated.';
+				$messages["post"][2] = '';
+				$messages["post"][3] = $messages["post"][2];
+				$messages["post"][4] = $messages["post"][1];
+				$messages["post"][6] = 'Widget has been created.';
+				$messages["post"][7] = 'Widget has been saved.';
+				$messages["post"][8] = 'Widget has been created.';
+				$messages["post"][9] = 'Widget has been scheduled for: <strong>Apr 26, 2012 @ 0:33</strong>';
+				$messages["post"][10] = 'Widget draft has been updated.';
+			}
+			return $messages;
+		}
+
 		
 		/**
 		 * register_post_type function.
@@ -57,9 +86,9 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 		public function register_post_type () {			
 			$page = 'themes.php';
 
-			$menu = __( 'Widget Builder', $this->token );
-			$singular = __( 'Widget', $this->token );
-			$plural = __( 'Widgets', $this->token );
+			$menu = __( 'Widget Builder', 'widget-builder' );
+			$singular = __( 'Widget', 'widget-builder' );
+			$plural = __( 'Widgets', 'widget-builder' );
 			$rewrite = array( 'slug' => '' );
 			$supports = array( 'title','editor','thumbnail' );
 			
@@ -67,15 +96,15 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			
 			$labels = array(
 				'name' => $menu,
-				'singular_name' => sprintf( __( '%s', $this->token ), $singular ),
-				'add_new' => sprintf( __( 'Add New %s', $this->token ), $singular ),
-				'add_new_item' => sprintf( __( 'Add New %s', $this->token ), $singular ),
-				'edit_item' => sprintf( __( 'Edit %s', $this->token ), $singular ),
-				'new_item' => sprintf( __( 'New %s', $this->token ), $singular ),
+				'singular_name' => sprintf( __( '%s', 'widget-builder' ), $singular ),
+				'add_new' => sprintf( __( 'Add New %s', 'widget-builder' ), $singular ),
+				'add_new_item' => sprintf( __( 'Add New %s', 'widget-builder' ), $singular ),
+				'edit_item' => sprintf( __( 'Edit %s', 'widget-builder' ), $singular ),
+				'new_item' => sprintf( __( 'New %s', 'widget-builder' ), $singular ),
 				'all_items' => $menu,
-				'view_item' => sprintf( __( 'View %s', $this->token ), $singular ),
-				'search_items' => sprintf( __( 'Search %a', $this->token ), $plural ),
-				'not_found' =>  sprintf( __( 'No %s Found', $this->token ), $plural ),
+				'view_item' => sprintf( __( 'View %s', 'widget-builder' ), $singular ),
+				'search_items' => sprintf( __( 'Search %a', 'widget-builder' ), $plural ),
+				'not_found' =>  sprintf( __( 'No %s Found', 'widget-builder' ), $plural ),
 				'not_found_in_trash' => sprintf( __( 'No %s Found In Trash', $this->token ), $plural ),
 				'parent_item_colon' => '',
 				'menu_name' => $menu
@@ -121,7 +150,7 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			// add link details
 	        add_meta_box( 
 	            $this->token . '_link_details',
-	            __('Widget Link Details', $this->token ),
+	            __('Widget Link Details', 'widget-builder' ),
 	            array( &$this, 'meta_box_content' ),
 	            $this->token,
 	            'side',
@@ -131,7 +160,7 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 	        // add internal widget details
 	        add_meta_box( 
 	            $this->token . '_widet_details',
-	            __('Widget Admin Details', $this->token ),
+	            __('Widget Admin Details', 'widget-builder' ),
 	            array( &$this, 'meta_box_widget' ),
 	            $this->token,
 	            'normal',
@@ -255,7 +284,17 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			// ensure we have the proper extension
 			$file = $file . '.php';
 			
-			return apply_filters( $this->token . '_' . $template, $file);
+			return apply_filters( $this->token . '_' . $template, $file, $class);
+		}
+
+		/**
+		 * load_plugin_text_domain function.
+		 * 
+		 * @access public
+		 * @return void
+		 */
+		function load_plugin_text_domain() {
+			load_plugin_textdomain( 'widget-builder', false, trailingslashit(basename(dirname(__FILE__))) . 'lang/');
 		}
 
 		/**
