@@ -67,6 +67,14 @@ The following filters are available for override
 
 == Changelog ==
 
+= 1.1 =
+
+* CPT admin: remove the preview changes button.
+* CPT admin: remove 'view post' link in update message in the yellow after saving a widget post.
+* Remove publish date or visibility for the widget.
+* Add language support so that people can contribute translations (Please feel free to send us translations)
+* Misc bug fixes.
+
 = 1.0 =
 
 * Initial plugin release

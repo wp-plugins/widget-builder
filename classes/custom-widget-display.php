@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Custom Widget Display
  *
@@ -7,8 +6,7 @@
  * multi-instance widgets for posts
  *
  * @author Timothy Wood @codearachnid
- * @version 1.0
- * @copyright Modern Tribe, Inc. 2012
+ * @copyright Modern Tribe, Inc.
  * @package Tribe_Widget_Builder
  **/
 

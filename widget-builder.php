@@ -26,7 +26,8 @@ if ( ! function_exists('tribe_load_custom_widget_display') ) {
 		$args = array(
 			'numberposts'  => -1,
 			'post_type'    => $token,
-			'post_status'  => 'publish' );
+			'post_status'  => 'publish'
+		);
 		
 		// filter 'tribe_widget_builder_get_posts_args' to modify the cpt query arguments 
  		$args = apply_filters( $token . '_get_posts_args', $args );

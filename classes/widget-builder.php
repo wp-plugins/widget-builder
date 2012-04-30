@@ -5,8 +5,7 @@
  * This file build
  *
  * @author Timothy Wood @codearachnid
- * @version 1.0
- * @copyright Modern Tribe, Inc. 2012
+ * @copyright Modern Tribe, Inc.
  * @package Tribe_Widget_Builder
  **/
 
@@ -95,7 +94,7 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			
 			$labels = array(
 				'name' => $menu,
-				'singular_name' => __( $singular, 'widget-builder' ),
+				'singular_name' => $singular,
 				'add_new' => sprintf( __( 'Add New %s', 'widget-builder' ), $singular ),
 				'add_new_item' => sprintf( __( 'Add New %s', 'widget-builder' ), $singular ),
 				'edit_item' => sprintf( __( 'Edit %s', 'widget-builder' ), $singular ),
@@ -222,8 +221,11 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			global $post_id;
 
 			// setup view fields
-			$fields = array( $this->token . '_link_text' => 'Link Text', $this->token . '_link_url' => 'Link URL' );
-			$noonce = wp_create_nonce( plugin_basename(__FILE__) );
+			$fields = array(
+				$this->token . '_link_text' => __( 'Link Text', 'widget-builder' ),
+				$this->token . '_link_url' => __( 'Link URL', 'widget-builder' )
+			);
+			$nonce = wp_create_nonce( plugin_basename(__FILE__) );
 			// get template hierarchy
 			include( $this->get_template_hierarchy( 'metabox_link' ) );
 
@@ -262,7 +264,7 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			}
 
 			// Verify save source of save to prevent outside access
-			if ( ( get_post_type() != $this->token ) || ! wp_verify_nonce( $_POST[$this->token . '_noonce'], plugin_basename(__FILE__) ) ) {  
+			if ( ( get_post_type() != $this->token ) || ! wp_verify_nonce( $_POST[$this->token . '_nonce'], plugin_basename(__FILE__) ) ) {
 				return $post_id;
 			}
 
