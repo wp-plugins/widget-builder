@@ -58,22 +58,19 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 		}
 
 		/**
-		 * widet_status_message function.
+		 * widget_status_message function.
 		 * 
 		 * @access public
 		 * @return $messages
 		 */
 		function widet_status_message( $messages ) {
 			if( $this->token == get_post_type() ) {
-				$messages["post"][1] = 'Widget content has been updated.';
+				$messages["post"][1] = __( 'Widget content has been updated.', 'widget-builder' );
 				$messages["post"][2] = '';
 				$messages["post"][3] = $messages["post"][2];
 				$messages["post"][4] = $messages["post"][1];
-				$messages["post"][6] = 'Widget has been created.';
-				$messages["post"][7] = 'Widget has been saved.';
-				$messages["post"][8] = 'Widget has been created.';
-				$messages["post"][9] = 'Widget has been scheduled for: <strong>Apr 26, 2012 @ 0:33</strong>';
-				$messages["post"][10] = 'Widget draft has been updated.';
+				$messages["post"][6] = __( 'Widget has been created.', 'widget-builder' );
+				$messages["post"][8] = __( 'Widget has been created.', 'widget-builder' );
 			}
 			return $messages;
 		}
@@ -98,14 +95,14 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 			
 			$labels = array(
 				'name' => $menu,
-				'singular_name' => sprintf( __( '%s', 'widget-builder' ), $singular ),
+				'singular_name' => __( $singular, 'widget-builder' ),
 				'add_new' => sprintf( __( 'Add New %s', 'widget-builder' ), $singular ),
 				'add_new_item' => sprintf( __( 'Add New %s', 'widget-builder' ), $singular ),
 				'edit_item' => sprintf( __( 'Edit %s', 'widget-builder' ), $singular ),
 				'new_item' => sprintf( __( 'New %s', 'widget-builder' ), $singular ),
 				'all_items' => $menu,
 				'view_item' => sprintf( __( 'View %s', 'widget-builder' ), $singular ),
-				'search_items' => sprintf( __( 'Search %a', 'widget-builder' ), $plural ),
+				'search_items' => sprintf( __( 'Search %s', 'widget-builder' ), $plural ),
 				'not_found' =>  sprintf( __( 'No %s Found', 'widget-builder' ), $plural ),
 				'not_found_in_trash' => sprintf( __( 'No %s Found In Trash', $this->token ), $plural ),
 				'parent_item_colon' => '',

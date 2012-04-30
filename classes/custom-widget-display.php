@@ -88,5 +88,14 @@ if ( ! class_exists('Tribe_Widget_Builder_Display') ) {
 
 		}
 
+		/**
+		 * form function.
+		 * 
+		 * @access public
+		 * @return void
+		 */
+		public function form(){
+		}
+
 	}
 }
