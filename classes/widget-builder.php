@@ -44,12 +44,15 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 
 			if ( is_admin() ) {
 
+				// remove publish box
+				add_action( 'admin_menu', array( &$this, 'remove_publish_box') );
+
 				// setup meta boxes for custom fields
 				add_action( 'add_meta_boxes', array( &$this, 'meta_box_setup' ) );
 				add_action( 'save_post', array( &$this, 'meta_box_save') );
 
 				// change the post status messages when saving, publishing or updating
-				add_filter( 'post_updated_messages', array( &$this, 'widet_status_message'));
+				add_filter( 'post_updated_messages', array( &$this, 'widet_status_message') );
 
 			}
 		}
@@ -61,8 +64,7 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 		 * @return $messages
 		 */
 		function widet_status_message( $messages ) {
-			global $post;
-			if($post->post_type == $this->token) {
+			if( $this->token == get_post_type() ) {
 				$messages["post"][1] = 'Widget content has been updated.';
 				$messages["post"][2] = '';
 				$messages["post"][3] = $messages["post"][2];
@@ -140,12 +142,32 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 		}
 
 		/**
+		 * remove_publish_box function.
+		 * 
+		 * @access public
+		 * @return void
+		 */
+		function remove_publish_box() {
+			remove_meta_box( 'submitdiv', $this->token, 'side' );
+		}
+
+		/**
 		 * meta_box_setup function.
 		 * 
 		 * @access public
 		 * @return void
 		 */
 		public function meta_box_setup() {
+
+			// add custom publish box
+	        add_meta_box( 
+	            $this->token . '_publish',
+	            __('Publish', 'widget-builder' ),
+	            array( &$this, 'meta_box_publish' ),
+	            $this->token,
+	            'side',
+	            'high'
+	        );
 
 			// add link details
 	        add_meta_box( 
@@ -172,6 +194,25 @@ if ( !class_exists( 'Tribe_Widget_Builder' ) ) {
 
 
 		}
+
+		/**
+		 * meta_box_publish function.
+		 * 
+		 * @access public
+		 * @return void
+		 */
+		public function meta_box_publish() {
+
+			global $action;
+
+			$post_type = $this->token;
+			$post_type_object = get_post_type_object($post_type);
+			$can_publish = current_user_can($post_type_object->cap->publish_posts);
+
+			// get template hierarchy
+			include( $this->get_template_hierarchy( 'metabox_pub' ) );
+
+	    }
 
 		/**
 		 * meta_box_content function.
