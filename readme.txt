@@ -1,7 +1,7 @@
 === Widget Builder ===
 Contributors: ModernTribe, codearachnid, peterchester, jbrinley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R8H3DD84PWAQ2
-Tags: widget, featured image, simple, sidebar, admin, custom post type, CPT
+Tags: widget, featured image, simple, sidebar, admin, custom post type, CPT, widget-only
 Requires at least: 3.0
 Tested up to: 3.3.2
 Stable tag: 1.3
